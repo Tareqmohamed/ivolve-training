@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-info-dep
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-info
+  template:
+    metadata:
+      labels:
+        app: my-info
+    spec:
+      containers:
+      - name: my-info
+        image: tareqmohamed/tarek:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-info-svc
+spec:
+  selector:
+    app: my-info
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-same-namespace
+spec:
+  podSelector:
+    matchLabels:
+      app: my-info
+  ingress:
+  - from:
+    - podSelector: {}  # Allow traffic from any pod in the namespace
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myinfo-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: tarek-info.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: my-info-svc
+            port:
+              number: 80
