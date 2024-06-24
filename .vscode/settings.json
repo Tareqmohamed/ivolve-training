@@ -1,0 +1,6 @@
+{
+    "yaml.schemas": {
+        "kubernetes": "*.yaml",
+        "kubernetes://schema/v1%40service": "file:///mnt/Cracows/ivolve-training/K8S/lab3/deploy-withpv.yaml"
+    }
+}
