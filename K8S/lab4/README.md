@@ -7,7 +7,7 @@ This repository contains the Kubernetes configuration files for deploying the `M
 
 - [Minikube](https://minikube.sigs.k8s.io/docs/start/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-- A web browser
+- [A static website](./static_website/README.md)
 
 ## Setup Instructions
 
